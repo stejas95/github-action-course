@@ -2,7 +2,7 @@ name: checkout github repo
 on: [push]
 
 jobs:
-    check-out action:
+    check-out-action:
         runs-on: ubuntu-latest
         steps:
             - name: list files before
