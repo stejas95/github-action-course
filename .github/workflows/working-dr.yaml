@@ -1,0 +1,24 @@
+name: working dir
+on: [push]
+
+jobs:
+    display:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Dispaly working dir
+              run: |
+                pwd
+                ls -a
+                echo $GITHUB_SHA
+                echo $GITHUB_REPOSITORY
+                echo $GITHUB_WORKSPACE
+    display_windows:
+        runs-on: windows-latest
+        steps:
+            - name: Dispaly working dir
+              run: |
+                pwd
+                ls -a
+                echo $GITHUB_SHA
+                echo $GITHUB_REPOSITORY
+                echo $GITHUB_WORKSPACE
