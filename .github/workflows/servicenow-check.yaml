@@ -13,11 +13,13 @@ jobs:
         runs-on: ubuntu-latest
         environment: production
         continue-on-error: true
+        steps:
+            - run: echo "ServiceNow approval step"
 
     ManualChange:
         runs-on: ubuntu-latest
         needs: [firstJob, serviceNowApproval]
-        if: ${{needs.serviceNowApproval.result == 'failure'}}
+        if: ${{needs.serviceNowApproval.result == 'failure' || needs.serviceNowApproval.result == 'cancelled'}}
         steps:
             - name: manual_change
               run: echo "deploying with manual change"
