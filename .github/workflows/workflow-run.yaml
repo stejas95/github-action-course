@@ -1,0 +1,12 @@
+name: workflow run
+on:
+    workflow_run:
+        workflows: [checkout github repo]
+        types: [completed]
+
+jobs:
+    echo-string:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo " I was triggered by workflow checkout github repo"
+            
