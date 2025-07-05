@@ -28,7 +28,7 @@ jobs:
     AutomatedChange:
         runs-on: ubuntu-latest
         needs: [firstJob, serviceNowApproval]
-        if: failure() && needs.serviceNowApproval.result == 'success'
+        if: needs.serviceNowApproval.result == 'success'
         steps:
             - name: manual_change
               run: echo "deploying with manual change"
