@@ -13,9 +13,6 @@ jobs:
         runs-on: ubuntu-latest
         environment: production
         continue-on-error: true
-        steps:
-            - name: approval
-              run: echo "approval"
 
     ManualChange:
         runs-on: ubuntu-latest
