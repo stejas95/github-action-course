@@ -1,0 +1,34 @@
+name: servcie-now-check
+on: [push]
+
+jobs:
+
+    firstJob:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "First job completed"
+
+    serviceNowApproval:
+        needs: firstJob
+        runs-on: ubuntu-latest
+        environment: production
+        continue-on-error: true
+        steps:
+            - name: approval
+              run: echo "approval"
+
+    ManualChange:
+        runs-on: ubuntu-latest
+        needs: [firstJob, serviceNowApproval]
+        if: failure() && needs.serviceNowApproval.result == 'failure'
+        steps:
+            - name: manual_change
+              run: echo "deploying with manual change"
+
+    AutomatedChange:
+        runs-on: ubuntu-latest
+        needs: [firstJob, serviceNowApproval]
+        if: failure() && needs.serviceNowApproval.result == 'success'
+        steps:
+            - name: manual_change
+              run: echo "deploying with manual change"
