@@ -11,15 +11,18 @@ jobs:
     serviceNowApproval:
         needs: firstJob
         runs-on: ubuntu-latest
-        environment: production
-        #continue-on-error: true
         steps:
-            - run: echo "ServiceNow approval step"
+            - name: ServiceNow Manual Approval
+              uses: trstringer/manual-approval@v1
+              with:
+                secret: ${{ secrets.GITHUB_TOKEN }}
+                approvers: stejas95
+                minimum-approvals: 1
 
     ManualChange:
         runs-on: ubuntu-latest
         needs: [firstJob, serviceNowApproval]
-        if: ${{needs.serviceNowApproval.result == 'failure' || needs.serviceNowApproval.result == 'cancelled'}}
+        if: ${{needs.serviceNowApproval.result == 'failure'}}
         steps:
             - name: manual_change
               run: echo "deploying with manual change"
