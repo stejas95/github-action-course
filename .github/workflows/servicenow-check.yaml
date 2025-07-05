@@ -12,7 +12,7 @@ jobs:
         needs: firstJob
         runs-on: ubuntu-latest
         environment: production
-        continue-on-error: true
+        #continue-on-error: true
         steps:
             - run: echo "ServiceNow approval step"
 
