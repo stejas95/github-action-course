@@ -35,9 +35,9 @@ jobs:
 
     BuildPackage:
         needs: CI
-        if: |
-          success() &&
-          (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+        # if: |
+        #   success() &&
+        #   (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
         runs-on: ubuntu-latest
         steps:
             - name: Stage - Build Package
