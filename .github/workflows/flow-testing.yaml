@@ -27,7 +27,7 @@ on:
 
 jobs:
     CI:
-        name: Flow Testing
+        # name: Flow Testing
         runs-on: ubuntu-latest
         steps:
             - name: Stage - CI 
