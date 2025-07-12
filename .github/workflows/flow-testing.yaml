@@ -27,21 +27,21 @@ on:
 
 jobs:
     CI:
-        # name: Flow Testing
-        runs-on: ubuntu-latest
-        steps:
-            - name: Stage - CI 
-              run: echo "Running CI stage"
+      # name: Flow Testing
+      runs-on: ubuntu-latest
+      steps:
+          - name: Stage - CI 
+            run: echo "Running CI stage"
 
     BuildPackage:
-        needs: CI
-        # if: |
-        #   success() &&
-        #   (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
-        runs-on: ubuntu-latest
-        steps:
-            - name: Stage - Build Package
-              run: echo "Running Build Package stage"
+      needs: CI
+      # if: |
+      #   success() &&
+      #   (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+      runs-on: ubuntu-latest
+      steps:
+          - name: Stage - Build Package
+            run: echo "Running Build Package stage"
 
     DevApproval:
         needs: BuildPackage
