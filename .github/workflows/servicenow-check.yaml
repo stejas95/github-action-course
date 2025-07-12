@@ -1,4 +1,4 @@
-name: env-approval-demo
+name: env-approval-demo testing
 on: [push, workflow_dispatch]
 
 jobs:
@@ -35,3 +35,4 @@ jobs:
     if: ${{ always() }}
     steps:
       - run: echo "Workflow completed as expected"
+      - run: echo " I have updated this workflow " 

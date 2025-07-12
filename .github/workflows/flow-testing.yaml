@@ -1,0 +1,158 @@
+---
+name: Flow Testing
+on:
+    workflow_dispatch:
+        inputs:
+            branch_deploy:
+                description: 'Branch to deploy'
+                required: false
+                default: false
+                type: boolean
+            dev_infra_id:
+                description: 'Dev infrastructure ID'
+                required: false
+                default: 'dev'
+                type: string
+
+    push:
+        branches: [master]
+        paths:
+            - 'flow/**'
+            - '.github/workflows/flow-testing.yaml'
+    pull_request:
+        branches: [master]
+        paths:
+            - 'flow/**'
+            - '.github/workflows/flow-testing.yaml' 
+
+jobs:
+    CI:
+        name: Flow Testing
+        runs-on: ubuntu-latest
+        steps:
+            - name: Stage - CI 
+              run: echo "Running CI stage"
+
+    BuildPackage:
+        needs: CI
+        if: |
+          success() &&
+          (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+        runs-on: ubuntu-latest
+        steps:
+            - name: Stage - Build Package
+              run: echo "Running Build Package stage"
+
+    DevApproval:
+        needs: BuildPackage
+        environment: production
+        if: |
+          success() &&
+          (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+        runs-on: ubuntu-latest
+        steps:
+            - name: Stage - Dev Approval
+              run: echo "Running Dev Approval stage"
+
+    LeapFrog-Dev:
+        needs: DevApproval
+        if: |
+          success() &&
+          (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+        runs-on: ubuntu-latest
+        steps:
+            - name: Stage - LeapFrog Dev
+              run: echo "Running LeapFrog Dev stage"
+
+    DeployDev:
+        needs: LeapFrog-Dev
+        if: |
+          success() &&
+          (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+        runs-on: ubuntu-latest
+        steps:
+            - name: Stage - Deploy Dev
+              run: echo "Running Deploy Dev stage"
+
+    DeleteBranchStack:
+        needs: DeployDev
+        environment: production
+        if: |
+          success() &&
+          (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+        runs-on: ubuntu-latest
+        steps:
+            - name: Stage - Delete Branch Stack
+              run: echo "Running Delete Branch Stack stage"
+    
+    IntApproval:
+        needs: DeployDev
+        environment: production
+        if: |
+          success() &&
+          (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+        runs-on: ubuntu-latest
+        steps:
+            - name: Stage - Int Approval
+              run: echo "Running Int Approval stage"
+    
+    LeapFrog-Int:
+        needs: IntApproval
+        if: |
+          success() &&
+          (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+        runs-on: ubuntu-latest
+        steps:
+            - name: Stage - LeapFrog Int
+              run: echo "Running LeapFrog Int stage"
+    DeployInt:
+        needs: LeapFrog-Int
+        if: |
+          success() &&
+          (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+        runs-on: ubuntu-latest
+        steps:  
+            - name: Stage - Deploy Int
+              run: echo "Running Deploy Int stage"
+    
+    ProdApproval:
+        needs: DeployInt
+        environment: production
+        if: |
+          success() &&
+          (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+        runs-on: ubuntu-latest
+        steps:
+            - name: Stage - Prod Approval
+              run: echo "Running Prod Approval stage"   
+    
+    LeapFrog-Prod:
+        needs: ProdApproval
+        if: |
+          success() &&
+          (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+        runs-on: ubuntu-latest
+        steps:
+            - name: Stage - LeapFrog Prod
+              run: echo "Running LeapFrog Prod stage"
+
+    ServiceNowApproval:
+        needs: LeapFrog-Prod
+        environment: production
+        if: |
+          success() &&
+          (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+        runs-on: ubuntu-latest
+        steps:
+            - name: Stage - ServiceNow Approval
+              run: echo "Running ServiceNow Approval stage"
+              
+    DeployProd:
+        needs: ServiceNowApproval
+        if: |
+          success() &&
+          (github.ref == 'refs/heads/master' || inputs.branch_deploy == 'true')
+        runs-on: ubuntu-latest
+        steps:
+            - name: Stage - Deploy Prod
+              run: echo "Running Deploy Prod stage" 
