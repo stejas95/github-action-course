@@ -5,7 +5,7 @@ on:
 
 jobs:
   call-template:
-    uses: ./.github/workflows/template.yml
+    uses: ./.github/workflows/template_1.yml
     with:
       run-build: true
       run-test: true
