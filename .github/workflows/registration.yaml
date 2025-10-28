@@ -12,7 +12,7 @@ on:
 
 jobs:
   call-template:
-    uses: ./.github/workflows/template_1.yml
+    uses: ./.github/workflows/template_1.yaml
     if: inputs.branchDeploy == true
     with:
       run-build: true
