@@ -2,10 +2,18 @@ name: Selective Job Runner
 on:
   push:
     branches: [main]
+  
+  workflow_dispatch:
+    inputs:
+      branchDeploy:
+        description: 'Test'
+        type: boolean
+        default: false
 
 jobs:
   call-template:
     uses: ./.github/workflows/template_1.yml
+    if: inputs.branchDeploy = true
     with:
       run-build: true
       run-test: true
