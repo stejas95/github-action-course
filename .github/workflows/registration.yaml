@@ -1,0 +1,12 @@
+name: Selective Job Runner
+on:
+  push:
+    branches: [main]
+
+jobs:
+  call-template:
+    uses: ./.github/workflows/template.yml
+    with:
+      run-build: true
+      run-test: true
+      run-deploy: false  # Skip deploy

@@ -1,0 +1,35 @@
+name: Reusable Template
+on:
+  workflow_call:
+    inputs:
+      run-build:
+        type: boolean
+        default: false
+      run-test:
+        type: boolean
+        default: false
+      run-deploy:
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    if: inputs.run-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: echo "Building..."
+
+  test:
+    if: inputs.run-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: echo "Testing..."
+
+  deploy:
+    if: inputs.run-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: echo "Deploying..."
